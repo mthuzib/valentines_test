@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ffd1dc 0%, #ffb6c1 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 500px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #e91e63;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .heart {
+            font-size: 4rem;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            margin-bottom: 1.5rem;
+        }
+
+        .invitation {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .activity {
+            background: #fff0f5;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid #e91e63;
+        }
+
+        .activity-title {
+            font-weight: bold;
+            color: #e91e63;
+            margin-bottom: 0.5rem;
+        }
+
+        .paddle-joke {
+            font-style: italic;
+            color: #666;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        button {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .yes-btn {
+            background: #e91e63;
+            color: white;
+        }
+
+        .yes-btn:hover {
+            background: #c2185b;
+            transform: scale(1.05);
+        }
+
+        .no-btn {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .no-btn:hover {
+            background: #e0e0e0;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Fireworks styles */
+        .firework {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .celebration {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .celebration h2 {
+            color: #e91e63;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .celebration p {
+            font-size: 1.3rem;
+            color: #333;
+        }
+
+        .celebration .hearts {
+            font-size: 3rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heart">💝</div>
+        <h1>Will You Be My Valentine?</h1>
+        
+        <div class="invitation">
+            <p>I'd love to spend the day with you!</p>
+            
+            <div class="activity">
+                <div class="activity-title">🥞 Breakfast Date</div>
+                <p>Start the morning with good food and even better company</p>
+            </div>
+            
+            <div class="activity">
+                <div class="activity-title">🚣 Paddle Adventure</div>
+                <p>Let's hit the water together</p>
+                <div class="paddle-joke">(This is the only time I'll ever go back and forth with you 😉)</div>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="yes-btn" onclick="celebrate()">Yes! 💕</button>
+            <button class="no-btn" onclick="moveButton(event)">No</button>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration">
+        <h2>Yay! 🎉</h2>
+        <p>It's a date! Can't wait! 💕</p>
+        <div class="hearts">💖💗💝</div>
+    </div>
+
+    <script>
+        function moveButton(event) {
+            const button = event.target;
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            
+            const maxX = containerRect.width - button.offsetWidth - 40;
+            const maxY = containerRect.height - button.offsetHeight - 40;
+            
+            const randomX = Math.random() * maxX + 20;
+            const randomY = Math.random() * maxY + 20;
+            
+            button.style.position = 'absolute';
+            button.style.left = randomX + 'px';
+            button.style.top = randomY + 'px';
+        }
+
+        function celebrate() {
+            document.getElementById('celebration').style.display = 'block';
+            document.querySelector('.container').style.display = 'none';
+            
+            // Launch fireworks
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => launchFirework(), i * 200);
+            }
+        }
+
+        function launchFirework() {
+            const colors = ['#ff1744', '#ff4081', '#e91e63', '#ffd700', '#ff69b4', '#ff6b9d'];
+            const startX = Math.random() * window.innerWidth;
+            const startY = window.innerHeight;
+            const endX = Math.random() * window.innerWidth;
+            const endY = Math.random() * window.innerHeight * 0.5;
+
+            // Create rocket
+            const rocket = document.createElement('div');
+            rocket.className = 'firework';
+            rocket.style.left = startX + 'px';
+            rocket.style.top = startY + 'px';
+            rocket.style.background = colors[Math.floor(Math.random() * colors.length)];
+            document.body.appendChild(rocket);
+
+            // Animate rocket
+            const rocketAnimation = rocket.animate([
+                { left: startX + 'px', top: startY + 'px' },
+                { left: endX + 'px', top: endY + 'px' }
+            ], {
+                duration: 1000,
+                easing: 'ease-out'
+            });
+
+            rocketAnimation.onfinish = () => {
+                rocket.remove();
+                explode(endX, endY, colors);
+            };
+        }
+
+        function explode(x, y, colors) {
+            const particles = 30;
+            
+            for (let i = 0; i < particles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'firework';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(particle);
+
+                const angle = (Math.PI * 2 * i) / particles;
+                const velocity = 100 + Math.random() * 100;
+                const endX = x + Math.cos(angle) * velocity;
+                const endY = y + Math.sin(angle) * velocity;
+
+                const animation = particle.animate([
+                    { 
+                        left: x + 'px', 
+                        top: y + 'px',
+                        opacity: 1,
+                        transform: 'scale(1)'
+                    },
+                    { 
+                        left: endX + 'px', 
+                        top: endY + 'px',
+                        opacity: 0,
+                        transform: 'scale(0)'
+                    }
+                ], {
+                    duration: 1000 + Math.random() * 500,
+                    easing: 'ease-out'
+                });
+
+                animation.onfinish = () => particle.remove();
+            }
+        }
+    </script>
+</body>
+</html>
